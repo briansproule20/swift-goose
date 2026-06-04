@@ -16,7 +16,7 @@ function clip(s: string, n = 38) {
 }
 
 export function FeltIntro() {
-  const [text, setText] = useState("attack at dawn");
+  const [text, setText] = useState("Muster the Rohirim");
   const [outputs, setOutputs] = useState<Record<string, string>>({
     encode: "",
     hash: "",
