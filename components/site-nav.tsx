@@ -16,11 +16,18 @@ import { Button } from "@/components/ui/button";
 import { CONCEPTS, type ConceptId } from "@/lib/concepts";
 import { cn } from "@/lib/utils";
 
-const LINKS: { href: string; label: string; concept?: ConceptId }[] = [
-  { href: "/playground", label: "Bench" },
+type NavLink = { href: string; label: string; concept?: ConceptId };
+
+const PRIMITIVE_LINKS: NavLink[] = [
   { href: "/learn/encoding", label: "Encoding", concept: "encode" },
   { href: "/learn/hashing", label: "Hashing", concept: "hash" },
   { href: "/learn/encryption", label: "Encryption", concept: "encrypt" },
+];
+
+const PROTOCOL_LINKS: NavLink[] = [
+  { href: "/learn/signatures", label: "Signatures", concept: "sign" },
+  { href: "/learn/key-exchange", label: "Key Exchange", concept: "exchange" },
+  { href: "/learn/tls-handshake", label: "Handshake", concept: "handshake" },
 ];
 
 export function SiteNav() {
@@ -45,27 +52,28 @@ export function SiteNav() {
         </Link>
 
         {/* desktop links */}
-        <div className="hidden items-center gap-1 md:flex">
-          {LINKS.map((link) => {
-            const active = pathname === link.href;
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={cn(
-                  "relative rounded-md px-3 py-1.5 text-sm transition-colors",
-                  active
-                    ? "text-foreground"
-                    : "text-muted-foreground hover:text-foreground",
-                )}
-              >
-                {link.label}
-                {active && (
-                  <span className="absolute inset-x-3 -bottom-px h-px bg-gradient-to-r from-transparent via-hash to-transparent" />
-                )}
-              </Link>
-            );
-          })}
+        <div className="hidden items-center gap-0.5 md:flex">
+          <DesktopLink
+            href="/playground"
+            label="Bench"
+            active={pathname === "/playground"}
+          />
+          <Divider />
+          {PRIMITIVE_LINKS.map((link) => (
+            <DesktopLink
+              key={link.href}
+              {...link}
+              active={pathname === link.href}
+            />
+          ))}
+          <Divider />
+          {PROTOCOL_LINKS.map((link) => (
+            <DesktopLink
+              key={link.href}
+              {...link}
+              active={pathname === link.href}
+            />
+          ))}
         </div>
 
         {/* mobile menu */}
@@ -82,7 +90,7 @@ export function SiteNav() {
           >
             <Menu className="size-5" />
           </SheetTrigger>
-          <SheetContent side="right" className="w-72 gap-0 p-0">
+          <SheetContent side="right" className="w-72 gap-0 overflow-y-auto p-0">
             <SheetTitle className="flex items-center gap-2.5 border-b border-border px-5 py-4 font-display text-xl tracking-tight">
               <Image
                 src="/salt-cube.png"
@@ -94,47 +102,100 @@ export function SiteNav() {
               Salt<span className="text-muted-foreground">works</span>
             </SheetTitle>
             <div className="flex flex-col p-3">
-              {LINKS.map((link) => {
-                const active = pathname === link.href;
-                const accent = link.concept
-                  ? CONCEPTS[link.concept].accent
-                  : null;
-                return (
-                  <SheetClose
-                    key={link.href}
-                    render={
-                      <Link
-                        href={link.href}
-                        onClick={() => setOpen(false)}
-                      />
-                    }
-                  >
-                    <span
-                      className={cn(
-                        "flex items-center gap-3 rounded-lg px-3 py-3 text-base transition-colors",
-                        active
-                          ? "bg-accent text-foreground"
-                          : "text-muted-foreground hover:bg-accent/50 hover:text-foreground",
-                      )}
-                    >
-                      <span
-                        className={cn(
-                          "size-2 rounded-full",
-                          accent ? "" : "bg-muted-foreground/50",
-                        )}
-                        style={
-                          accent ? { background: accent.color } : undefined
-                        }
-                      />
-                      {link.label}
-                    </span>
-                  </SheetClose>
-                );
-              })}
+              <MobileLink
+                href="/playground"
+                label="Bench"
+                active={pathname === "/playground"}
+                onClick={() => setOpen(false)}
+              />
+              <MobileGroup label="Primitives" />
+              {PRIMITIVE_LINKS.map((link) => (
+                <MobileLink
+                  key={link.href}
+                  {...link}
+                  active={pathname === link.href}
+                  onClick={() => setOpen(false)}
+                />
+              ))}
+              <MobileGroup label="Protocols" />
+              {PROTOCOL_LINKS.map((link) => (
+                <MobileLink
+                  key={link.href}
+                  {...link}
+                  active={pathname === link.href}
+                  onClick={() => setOpen(false)}
+                />
+              ))}
             </div>
           </SheetContent>
         </Sheet>
       </nav>
     </header>
+  );
+}
+
+function Divider() {
+  return <span className="mx-1.5 h-4 w-px bg-border" aria-hidden />;
+}
+
+function DesktopLink({
+  href,
+  label,
+  concept,
+  active,
+}: NavLink & { active: boolean }) {
+  const color = concept ? CONCEPTS[concept].accent.color : "var(--hash)";
+  return (
+    <Link
+      href={href}
+      className={cn(
+        "relative rounded-md px-2.5 py-1.5 text-sm transition-colors",
+        active ? "text-foreground" : "text-muted-foreground hover:text-foreground",
+      )}
+    >
+      {label}
+      {active && (
+        <span
+          className="absolute inset-x-2.5 -bottom-px h-px"
+          style={{
+            background: `linear-gradient(90deg, transparent, ${color}, transparent)`,
+          }}
+        />
+      )}
+    </Link>
+  );
+}
+
+function MobileGroup({ label }: { label: string }) {
+  return (
+    <span className="label-spec mt-3 mb-1 px-3 pt-2">{label}</span>
+  );
+}
+
+function MobileLink({
+  href,
+  label,
+  concept,
+  active,
+  onClick,
+}: NavLink & { active: boolean; onClick: () => void }) {
+  const accent = concept ? CONCEPTS[concept].accent : null;
+  return (
+    <SheetClose render={<Link href={href} onClick={onClick} />}>
+      <span
+        className={cn(
+          "flex items-center gap-3 rounded-lg px-3 py-3 text-base transition-colors",
+          active
+            ? "bg-accent text-foreground"
+            : "text-muted-foreground hover:bg-accent/50 hover:text-foreground",
+        )}
+      >
+        <span
+          className={cn("size-2 rounded-full", accent ? "" : "bg-muted-foreground/50")}
+          style={accent ? { background: accent.color } : undefined}
+        />
+        {label}
+      </span>
+    </SheetClose>
   );
 }

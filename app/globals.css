@@ -20,6 +20,14 @@
   --color-encrypt: var(--encrypt);
   --color-encrypt-soft: var(--encrypt-soft);
 
+  /* Verdigris (copper patina) — the protocol tier, three shades */
+  --color-sign: var(--sign);
+  --color-sign-soft: var(--sign-soft);
+  --color-exchange: var(--exchange);
+  --color-exchange-soft: var(--exchange-soft);
+  --color-handshake: var(--handshake);
+  --color-handshake-soft: var(--handshake-soft);
+
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -75,6 +83,16 @@
   --hash-soft: oklch(0.645 0.158 262 / 15%);
   --encrypt: oklch(0.535 0.165 264);
   --encrypt-soft: oklch(0.535 0.165 264 / 18%);
+
+  /* verdigris — light (sign) · mid (exchange) · deep (handshake).
+     A copper-patina teal: the protocols are built from the cobalt
+     primitives, so they sit one hue-step away, not in another world. */
+  --sign: oklch(0.74 0.092 188);
+  --sign-soft: oklch(0.74 0.092 188 / 14%);
+  --exchange: oklch(0.66 0.104 192);
+  --exchange-soft: oklch(0.66 0.104 192 / 16%);
+  --handshake: oklch(0.58 0.094 196);
+  --handshake-soft: oklch(0.58 0.094 196 / 18%);
 }
 
 @layer base {
@@ -125,6 +143,15 @@
   }
   .text-glow-encrypt {
     text-shadow: 0 0 22px oklch(0.535 0.165 264 / 45%);
+  }
+  .text-glow-sign {
+    text-shadow: 0 0 22px oklch(0.74 0.092 188 / 38%);
+  }
+  .text-glow-exchange {
+    text-shadow: 0 0 22px oklch(0.66 0.104 192 / 42%);
+  }
+  .text-glow-handshake {
+    text-shadow: 0 0 22px oklch(0.58 0.094 196 / 45%);
   }
   /* hairline frame used on lab panels */
   .lab-frame {

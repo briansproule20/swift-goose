@@ -1,10 +1,10 @@
 import { type ReactNode } from "react";
 import Link from "next/link";
-import { AlertTriangle, ArrowRight, Lightbulb } from "lucide-react";
+import { AlertTriangle, ArrowRight, Layers, Lightbulb } from "lucide-react";
 import {
   CONCEPTS,
-  CONCEPT_ORDER,
   type ConceptId,
+  tierOrder,
 } from "@/lib/concepts";
 import { cn } from "@/lib/utils";
 
@@ -17,13 +17,17 @@ export function LessonHeader({
 }) {
   const c = CONCEPTS[conceptId];
   const Icon = c.icon;
-  const index = CONCEPT_ORDER.indexOf(conceptId) + 1;
+  const order = tierOrder(c.tier);
+  const index = order.indexOf(conceptId) + 1;
+  const total = order.length;
 
   return (
     <header className="relative border-b border-border/60">
       <div className="mx-auto max-w-3xl px-5 py-16 sm:py-20">
-        <div className="flex items-center gap-3 text-sm text-muted-foreground">
-          <span className="label-spec">0{index} / 03</span>
+        <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+          <span className="label-spec">
+            {c.tier} · 0{index} / 0{total}
+          </span>
           <span className="h-px w-8 bg-border" />
           <span
             className={cn(
@@ -42,6 +46,35 @@ export function LessonHeader({
           {c.name}
         </h1>
         <p className={cn("mt-4 text-lg text-muted-foreground")}>{c.oneLine}</p>
+
+        {c.builtFrom && c.builtFrom.length > 0 && (
+          <div className="mt-6 flex flex-wrap items-center gap-2">
+            <span className="label-spec inline-flex items-center gap-1.5">
+              <Layers className="size-3" />
+              built from
+            </span>
+            {c.builtFrom.map((id) => {
+              const b = CONCEPTS[id];
+              const BIcon = b.icon;
+              return (
+                <Link
+                  key={id}
+                  href={b.href}
+                  className={cn(
+                    "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs transition-colors hover:bg-background/40",
+                    b.accent.border,
+                    b.accent.bgSoft,
+                    b.accent.text,
+                  )}
+                >
+                  <BIcon className="size-3" />
+                  {b.name}
+                </Link>
+              );
+            })}
+          </div>
+        )}
+
         {children && <div className="mt-6">{children}</div>}
       </div>
     </header>
@@ -124,26 +157,31 @@ export function Mono({ children }: { children: ReactNode }) {
 }
 
 export function LessonFooterNav({ conceptId }: { conceptId: ConceptId }) {
-  const others = CONCEPT_ORDER.filter((id) => id !== conceptId);
+  const c = CONCEPTS[conceptId];
+  const others = tierOrder(c.tier).filter((id) => id !== conceptId);
+  const isProtocol = c.tier === "protocol";
+
   return (
     <nav className="mx-auto max-w-3xl px-5 pb-20">
       <div className="rounded-xl border border-border bg-card/40 p-2">
         <div className="grid gap-2 sm:grid-cols-2">
           {others.map((id) => {
-            const c = CONCEPTS[id];
-            const Icon = c.icon;
+            const o = CONCEPTS[id];
+            const Icon = o.icon;
             return (
               <Link
                 key={id}
-                href={c.href}
+                href={o.href}
                 className="group flex items-center justify-between rounded-lg border border-transparent p-4 transition-colors hover:border-border hover:bg-background/40"
               >
                 <span className="flex items-center gap-3">
-                  <Icon className={cn("size-4", c.accent.text)} />
+                  <Icon className={cn("size-4", o.accent.text)} />
                   <span>
-                    <span className="label-spec block">next</span>
+                    <span className="label-spec block">
+                      {isProtocol ? "protocol" : "next"}
+                    </span>
                     <span className="font-display text-lg leading-tight">
-                      {c.name}
+                      {o.name}
                     </span>
                   </span>
                 </span>
@@ -153,10 +191,10 @@ export function LessonFooterNav({ conceptId }: { conceptId: ConceptId }) {
           })}
         </div>
         <Link
-          href="/playground"
+          href={isProtocol ? "/#protocols" : "/playground"}
           className="mt-2 flex items-center justify-center gap-2 rounded-lg bg-secondary/60 p-3 text-sm transition-colors hover:bg-secondary"
         >
-          All three on the bench
+          {isProtocol ? "All the protocols" : "All three on the bench"}
           <ArrowRight className="size-4" />
         </Link>
       </div>

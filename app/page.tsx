@@ -4,10 +4,11 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Aurora } from "@/components/aurora";
 import { FeltIntro } from "@/components/felt-intro";
 import { Button } from "@/components/ui/button";
-import { CONCEPT_ORDER, CONCEPTS } from "@/lib/concepts";
+import { CONCEPT_ORDER, CONCEPTS, PROTOCOL_ORDER } from "@/lib/concepts";
 import { cn } from "@/lib/utils";
 
 const ROWS = CONCEPT_ORDER.map((id) => CONCEPTS[id]);
+const PROTOCOLS = PROTOCOL_ORDER.map((id) => CONCEPTS[id]);
 
 export default function Home() {
   return (
@@ -167,8 +168,88 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── Protocols (the second tier) ── */}
+      <section
+        id="protocols"
+        className="scroll-mt-20 border-t border-border bg-card/20"
+      >
+        <div className="mx-auto max-w-6xl px-5 py-20">
+          <span className="label-spec">tier 02</span>
+          <h2 className="mt-3 font-display text-4xl tracking-tight">
+            Then they combine.
+          </h2>
+          <p className="mt-3 max-w-xl text-muted-foreground">
+            On their own, the three above are building blocks. Snap them together
+            and you get the protocols that actually run the internet — proving
+            identity, agreeing on secrets, and opening a private line.
+          </p>
+
+          <div className="mt-10 grid gap-4 md:grid-cols-3">
+            {PROTOCOLS.map((c, i) => {
+              const Icon = c.icon;
+              return (
+                <Link
+                  key={c.id}
+                  href={c.href}
+                  className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card/40 p-6 transition-transform hover:-translate-y-1"
+                >
+                  <span
+                    className="absolute inset-x-0 top-0 h-px"
+                    style={{
+                      background: `linear-gradient(90deg, transparent, ${c.accent.color}, transparent)`,
+                    }}
+                  />
+                  <div className="flex items-center justify-between">
+                    <span
+                      className={cn(
+                        "grid size-11 place-items-center rounded-lg border",
+                        c.accent.border,
+                        c.accent.bgSoft,
+                      )}
+                    >
+                      <Icon className={cn("size-5", c.accent.text)} />
+                    </span>
+                    <span className="label-spec">
+                      {c.id === "handshake" ? "capstone" : `0${i + 1}`}
+                    </span>
+                  </div>
+                  <h3 className="mt-5 font-display text-2xl">{c.name}</h3>
+                  <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
+                    {c.oneLine}
+                  </p>
+                  {c.builtFrom && (
+                    <div className="mt-4 flex flex-wrap gap-1.5">
+                      {c.builtFrom.map((id) => {
+                        const b = CONCEPTS[id];
+                        return (
+                          <span
+                            key={id}
+                            className={cn(
+                              "rounded-full border px-2 py-0.5 font-data text-[10px]",
+                              b.accent.border,
+                              b.accent.bgSoft,
+                              b.accent.text,
+                            )}
+                          >
+                            {b.name}
+                          </span>
+                        );
+                      })}
+                    </div>
+                  )}
+                  <span className="mt-5 inline-flex items-center gap-1.5 text-sm text-foreground/80 transition-colors group-hover:text-foreground">
+                    Open
+                    <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
       {/* ── Close ── */}
-      <section className="mx-auto max-w-6xl px-5 pb-24">
+      <section className="mx-auto max-w-6xl px-5 py-24">
         <div className="relative flex flex-col items-center gap-6 overflow-hidden rounded-2xl border border-border bg-card/40 px-8 py-14 text-center lab-frame sm:flex-row sm:justify-between sm:text-left">
           <div>
             <h2 className="font-display text-3xl tracking-tight sm:text-4xl">
