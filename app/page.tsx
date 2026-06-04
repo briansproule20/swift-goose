@@ -29,7 +29,8 @@ export default function Home() {
             </h1>
 
             <p className="mt-6 max-w-md text-lg leading-relaxed text-muted-foreground">
-              Three different things that look the same in a text box.
+              Three things that look similar and get confused constantly — with
+              vastly different uses.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-3">

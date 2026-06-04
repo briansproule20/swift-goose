@@ -9,11 +9,13 @@ import {
 } from "@/components/lesson";
 import { EncryptDemo } from "@/components/encrypt-demo";
 import { XorMath } from "@/components/xor-math";
+import { CaesarDemo } from "@/components/caesar-demo";
+import { EncryptionTimeline } from "@/components/encryption-timeline";
 
 export const metadata: Metadata = {
   title: "Encryption · AES-GCM — Saltworks",
   description:
-    "AES-GCM scrambles data so only the right key gets it back. Symmetric vs. asymmetric, the XOR math at the core, and why a wrong key fails by design.",
+    "AES-GCM scrambles data so only the right key gets it back. A short history from Caesar to AES, the XOR at its core, why it's the standard, and the wrong-key failure.",
 };
 
 export default function EncryptionPage() {
@@ -38,15 +40,66 @@ export default function EncryptionPage() {
           </p>
         </Section>
 
+        <Section title="A short history">
+          <p>
+            Encryption is thousands of years older than computers. The whole
+            history is a back-and-forth: someone invents a way to hide a message,
+            someone else finds the pattern that gives it away.
+          </p>
+          <EncryptionTimeline />
+          <p className="pt-2">
+            Caesar&apos;s cipher is where it starts — shift every letter by a
+            fixed amount. Try it:
+          </p>
+          <CaesarDemo />
+        </Section>
+
         <Section title="The math at the core: XOR">
           <p>
-            AES is elaborate, but the move it&apos;s built on is simple. Combine
-            each bit of your data with a bit of the key using XOR. XOR has one
-            magic property: do it twice with the same value and you&apos;re back
-            where you started. So the same key both locks and unlocks — and a
-            wrong key just gives you junk.
+            Skip ahead two millennia. Underneath modern encryption is one humble
+            operation: <strong>XOR</strong> (exclusive or). It compares two bits
+            and returns 1 only when they differ. Its magic property is that
+            applying the same value twice cancels out —{" "}
+            <Mono>p ⊕ k ⊕ k = p</Mono> — so the same key both scrambles and
+            unscrambles.
           </p>
           <XorMath />
+          <p>
+            But XOR against a single fixed key is a toy: reuse it and patterns
+            leak straight through. AES&apos;s real job is to manufacture a flood
+            of unpredictable, key-dependent material to XOR against, and to
+            scramble the bits so thoroughly in between that the result looks
+            random while staying perfectly reversible.
+          </p>
+          <p>
+            It works on 16-byte blocks. With a 256-bit key it runs 14 rounds, and
+            each round does three things: push every byte through a fixed lookup
+            table (the <em>S-box</em> — &ldquo;confusion&rdquo;), shuffle and mix
+            the bytes across the block (&ldquo;diffusion&rdquo;), then XOR in a
+            key derived for that round. Fourteen passes later, every output bit
+            depends on every input bit and every key bit — and there&apos;s no way
+            to unwind it without the key.
+          </p>
+        </Section>
+
+        <Section title="Why AES is the standard">
+          <p>
+            In 1997 the US standards body, NIST, ran a public, international
+            contest to replace the aging DES cipher. Fifteen designs were
+            submitted and attacked in the open by cryptographers worldwide. A
+            Belgian design, <strong>Rijndael</strong>, won in 2001 and became
+            AES. That openness is the point: nothing about it is secret, so
+            there&apos;s nowhere to hide a backdoor.
+          </p>
+          <p>
+            It&apos;s also fast — and faster still in hardware, since modern CPUs
+            run AES instructions natively. Your laptop encrypts at gigabytes a
+            second, which is why it&apos;s everywhere: HTTPS, Wi-Fi, disk
+            encryption, password managers, the demo on this page. Twenty-plus
+            years of public attack later, there&apos;s still no practical break of
+            full AES. &ldquo;Industry standard&rdquo; here means exactly that:
+            open, fast, everywhere, and stubbornly unbroken.
+          </p>
         </Section>
 
         <Section title="Symmetric vs. asymmetric">

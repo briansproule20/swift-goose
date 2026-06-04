@@ -9,7 +9,6 @@ import { Switch } from "@/components/ui/switch";
 import { encodeBase64, base64Overhead } from "@/lib/encode";
 import { sha256Hex } from "@/lib/hash";
 import { decryptText, encryptText, suggestPassphrase } from "@/lib/encrypt";
-import { cn } from "@/lib/utils";
 
 export function Playground() {
   const [input, setInput] = useState("We Ride for Gondor");
@@ -161,25 +160,30 @@ export function Playground() {
 
         <TransformCard
           conceptId="encrypt"
-          output={cipherOut}
-          state={input ? "ok" : "empty"}
+          output={
+            !input
+              ? ""
+              : wrongKey
+                ? (wrongKeyError ?? "Decryption failed.")
+                : cipherOut
+          }
+          state={!input ? "empty" : wrongKey ? "error" : "ok"}
           note={
             input ? (
               <div className="space-y-3">
                 <div className="flex items-center justify-between gap-3 rounded-md border border-border bg-background/40 px-3 py-2">
-                  <span className="text-xs">Decrypt with a wrong key</span>
-                  <Switch
-                    checked={wrongKey}
-                    onCheckedChange={setWrongKey}
-                  />
+                  <span className="text-xs">Decrypt with the wrong key</span>
+                  <Switch checked={wrongKey} onCheckedChange={setWrongKey} />
                 </div>
                 {wrongKey ? (
-                  <p className="font-data text-xs text-destructive">
-                    ✗ {wrongKeyError ?? "Decryption failed."}
+                  <p className="font-data text-xs leading-relaxed text-muted-foreground">
+                    GCM checks an authentication tag, sees the mismatch, and
+                    returns nothing — no plaintext, not even the ciphertext.
+                    Just rejection.
                   </p>
                 ) : (
                   <p className="font-data text-xs text-encode">
-                    unlocks with your key →{" "}
+                    decrypts back with your key →{" "}
                     <span className="text-foreground/80">
                       “{decrypted ?? "…"}”
                     </span>
@@ -191,15 +195,12 @@ export function Playground() {
             )
           }
         >
-          <div
-            className={cn(
-              "flex items-center gap-2 rounded-md px-3 py-2 text-xs",
-              "bg-encrypt-soft text-encrypt",
-            )}
-          >
-            <KeyRound className="size-3.5" />
-            Fresh salt + IV every run — same key, different ciphertext.
-          </div>
+          {!wrongKey && (
+            <div className="flex items-center gap-2 rounded-md bg-encrypt-soft px-3 py-2 text-xs text-encrypt">
+              <KeyRound className="size-3.5" />
+              Fresh salt + IV every run — same key, different ciphertext.
+            </div>
+          )}
         </TransformCard>
       </div>
 
