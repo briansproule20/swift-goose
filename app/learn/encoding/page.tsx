@@ -71,7 +71,8 @@ export default function EncodingPage() {
           <p>
             This is the common mistake. Base64 output looks scrambled, so people
             assume it&apos;s protected. There&apos;s no key and no secret —{" "}
-            <Mono>atob()</Mono> reverses it in one step. Base64 a password and
+            <Mono>atob()</Mono>{" "}
+            reverses it in one step. Base64 a password and
             ship it, and you&apos;ve shipped the password. For secrecy you want{" "}
             <a
               href="/learn/encryption"

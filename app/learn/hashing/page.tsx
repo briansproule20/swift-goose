@@ -25,14 +25,16 @@ export default function HashingPage() {
         <Section title="What it does">
           <p>
             A hash takes any input — one character or a terabyte — and returns a
-            fixed-size fingerprint. SHA-256 always gives back 256 bits, written
-            as 64 hex characters. Same input, same fingerprint, every time. Any
+            fixed-size fingerprint. SHA-256 — the Secure Hash Algorithm, 256-bit
+            variant — always gives back 256 bits, written as 64 hex characters.
+            Same input, same fingerprint, every time. Any
             difference at all, a completely different fingerprint.
           </p>
           <p>
             And it only goes one way. There is no un-hash. Given a fingerprint
             you can&apos;t compute the input it came from — you can only guess
-            inputs and check. The rest of this page is about <em>why</em> that&apos;s
+            inputs and check. The rest of this page is about <em>why</em>{" "}
+            that&apos;s
             true, not just asserted.
           </p>
         </Section>
@@ -96,7 +98,8 @@ export default function HashingPage() {
           <ul className="space-y-2">
             <li>
               <strong>Passwords</strong> — a site stores the hash, never the
-              password, with a per-user <em>salt</em> mixed in so identical
+              password, with a per-user <em>salt</em>{" "}
+              mixed in so identical
               passwords don&apos;t share a fingerprint.
             </li>
             <li>

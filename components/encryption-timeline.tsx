@@ -22,7 +22,7 @@ const ERAS = [
   {
     when: "1976–77",
     title: "Public keys",
-    body: "Diffie–Hellman, then RSA, crack the oldest problem: agreeing on a key with someone you've never met, over a line everyone can hear. Modern secure communication starts here.",
+    body: "Diffie–Hellman, then RSA (named for its inventors Rivest, Shamir, and Adleman), crack the oldest problem: agreeing on a key with someone you've never met, over a line everyone can hear. Modern secure communication starts here.",
   },
   {
     when: "2001",
