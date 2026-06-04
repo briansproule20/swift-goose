@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu } from "lucide-react";
 import {
@@ -22,24 +23,6 @@ const LINKS: { href: string; label: string; concept?: ConceptId }[] = [
   { href: "/learn/encryption", label: "Encryption", concept: "encrypt" },
 ];
 
-/** A cubic salt-crystal glyph — outline cube, drawn small. */
-function SaltMark({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.4"
-      strokeLinejoin="round"
-      className={className}
-      aria-hidden
-    >
-      <path d="M12 2 21 7v10l-9 5-9-5V7z" />
-      <path d="M12 2v20M3 7l9 5 9-5" opacity="0.55" />
-    </svg>
-  );
-}
-
 export function SiteNav() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -48,9 +31,14 @@ export function SiteNav() {
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl">
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-5">
         <Link href="/" className="group flex items-center gap-2.5">
-          <span className="grid size-8 place-items-center rounded-[5px] border border-border bg-card text-hash transition-colors group-hover:text-encode">
-            <SaltMark className="size-4" />
-          </span>
+          <Image
+            src="/salt-cube.png"
+            alt="Saltworks"
+            width={34}
+            height={34}
+            priority
+            className="size-[34px] drop-shadow-[0_2px_10px_rgba(79,122,230,0.35)] transition-transform group-hover:scale-105"
+          />
           <span className="font-display text-xl leading-none tracking-tight">
             Salt<span className="text-muted-foreground">works</span>
           </span>
@@ -96,10 +84,14 @@ export function SiteNav() {
           </SheetTrigger>
           <SheetContent side="right" className="w-72 gap-0 p-0">
             <SheetTitle className="flex items-center gap-2.5 border-b border-border px-5 py-4 font-display text-xl tracking-tight">
-              <span className="grid size-7 place-items-center rounded-[5px] border border-border bg-card text-hash">
-                <SaltMark className="size-3.5" />
-              </span>
-              Salt<span className="-ml-1.5 text-muted-foreground">works</span>
+              <Image
+                src="/salt-cube.png"
+                alt=""
+                width={28}
+                height={28}
+                className="size-7 drop-shadow-[0_2px_8px_rgba(79,122,230,0.35)]"
+              />
+              Salt<span className="text-muted-foreground">works</span>
             </SheetTitle>
             <div className="flex flex-col p-3">
               {LINKS.map((link) => {
