@@ -43,7 +43,7 @@ export default function TlsHandshakePage() {
           </p>
           <ul className="space-y-2">
             <li>
-              <strong>Key exchange</strong> gets both sides to the same secret
+              <strong>Key exchange</strong>{" "}gets both sides to the same secret
               over the open wire — ephemeral, so it&apos;s forward-secret.
             </li>
             <li>
@@ -93,7 +93,7 @@ export default function TlsHandshakePage() {
               traffic.
             </li>
             <li>
-              <strong>Remove encryption</strong> and you&apos;ve authenticated a
+              <strong>Remove encryption</strong>{" "}and you&apos;ve authenticated a
               channel that still sends everything in plain sight.
             </li>
           </ul>
@@ -105,7 +105,7 @@ export default function TlsHandshakePage() {
             sometimes-broken options to negotiate. TLS 1.3 (2018) cut the
             handshake to a single round trip, deleted the weak choices outright,
             and made forward-secret ephemeral exchange mandatory. Faster{" "}
-            <em>and</em> safer — the rare upgrade that&apos;s both.
+            <em>and</em>{" "}safer — the rare upgrade that&apos;s both.
           </p>
         </Callout>
 

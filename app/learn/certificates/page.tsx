@@ -25,12 +25,12 @@ export default function CertificatesPage() {
           <p>
             Signatures left one question open. A signature proves a message came
             from the holder of a particular key — but how do you know{" "}
-            <em>that key</em> belongs to <Mono>saltworks.dev</Mono> and not an
+            <em>that key</em> belongs to <Mono>saltworks.dev</Mono>{" "}and not an
             impostor who generated their own? You&apos;ve never met the server.
             You can&apos;t have exchanged keys in advance.
           </p>
           <p>
-            A <strong>certificate</strong> is the answer: a signed statement that
+            A <strong>certificate</strong>{" "}is the answer: a signed statement that
             says &ldquo;this name owns this public key,&rdquo; vouched for by
             someone you already trust. Stack those statements into a chain and you
             get <strong>public-key infrastructure</strong> — trust that scales to
@@ -49,12 +49,12 @@ export default function CertificatesPage() {
               operating system. They are guarded obsessively and used rarely.
             </li>
             <li>
-              <strong>Intermediate CAs</strong> are signed by a root. (&ldquo;I
+              <strong>Intermediate CAs</strong>{" "}are signed by a root. (&ldquo;I
               vouch for them.&rdquo;) They do the day-to-day work, so the precious
               root key can stay offline in a vault.
             </li>
             <li>
-              <strong>The leaf</strong> is the server&apos;s own certificate,
+              <strong>The leaf</strong>{" "}is the server&apos;s own certificate,
               signed by an intermediate. (&ldquo;And I vouch for{" "}
               <Mono>saltworks.dev</Mono>.&rdquo;)
             </li>
@@ -76,7 +76,7 @@ export default function CertificatesPage() {
           </p>
           <CertChainDemo />
           <p>
-            Each flaw fails differently. A <strong>swapped key</strong> breaks the
+            Each flaw fails differently. A <strong>swapped key</strong>{" "}breaks the
             leaf&apos;s signature, because it no longer covers the key being
             presented. A <strong>broken signature</strong> fails at that exact
             link. An <strong>untrusted root</strong> is the subtle one: every
@@ -89,7 +89,7 @@ export default function CertificatesPage() {
 
         <Callout title="Why a chain, instead of trusting every key?">
           <p>
-            Two reasons. <strong>Scale:</strong> nobody could ship a list of every
+            Two reasons. <strong>Scale:</strong>{" "}nobody could ship a list of every
             server&apos;s key, so trust is delegated down from a small, fixed set
             of roots. <strong>Safety:</strong> the high-value root keys stay
             offline and almost never sign anything, while disposable intermediates
@@ -104,7 +104,7 @@ export default function CertificatesPage() {
             the address bar, over an encrypted channel — nothing more. A phishing
             site at <Mono>saltw0rks.dev</Mono> can hold a perfectly valid
             certificate <em>for that name</em>. The chain authenticates the{" "}
-            <em>connection</em>, not the <em>character</em> of whoever&apos;s on
+            <em>connection</em>, not the <em>character</em>{" "}of whoever&apos;s on
             the other end. Read the name, not just the lock.
           </p>
         </Callout>
@@ -112,7 +112,7 @@ export default function CertificatesPage() {
         <Section title="What it's for">
           <ul className="space-y-2">
             <li>
-              <strong>HTTPS</strong> — this chain is the <em>Certificate</em> step
+              <strong>HTTPS</strong> — this chain is the <em>Certificate</em>{" "}step
               of the TLS handshake. It&apos;s what lets your browser trust a
               server it&apos;s never met.
             </li>

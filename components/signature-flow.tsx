@@ -61,7 +61,7 @@ export function SignatureFlow() {
         re-hashes the message and asks the matching{" "}
         <em>public</em> key whether that digest and signature line up. The
         public key can <em>check</em> a signature but never{" "}
-        <em>create</em> one — which is exactly why it&apos;s safe to publish.
+        <em>create</em>{" "}one — which is exactly why it&apos;s safe to publish.
       </p>
     </div>
   );

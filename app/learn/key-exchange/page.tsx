@@ -44,7 +44,7 @@ export default function KeyExchangePage() {
           <p>
             The classic picture is paint. Everyone agrees on a common base color,
             out in the open. Each person privately mixes in a secret color of
-            their own and sends the <em>mixture</em> across — and the trick is
+            their own and sends the <em>mixture</em>{" "}across — and the trick is
             that un-mixing paint is hard, so the secret color stays hidden. When
             each side mixes their own secret into the color they received, both
             arrive at the identical final blend. The eavesdropper saw the two
@@ -72,7 +72,7 @@ export default function KeyExchangePage() {
             reverse step — recovering <Mono>a</Mono> from the public result — is
             the <strong>discrete logarithm problem</strong>, and nobody knows a
             fast way to do it. With these toy numbers Eve cracks it in a handful
-            of guesses. Scale <Mono>p</Mono> up to hundreds of digits and her
+            of guesses. Scale <Mono>p</Mono>{" "}up to hundreds of digits and her
             search becomes longer than the lifetime of the universe, while
             Alice&apos;s and Bob&apos;s side stays instant.
           </p>

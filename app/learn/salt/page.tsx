@@ -24,7 +24,7 @@ export default function SaltPage() {
         <Section title="What it does">
           <p>
             This site is named for the thing this page is about. A{" "}
-            <strong>salt</strong> is a pinch of randomness mixed into a secret
+            <strong>salt</strong>{" "}is a pinch of randomness mixed into a secret
             before it&apos;s hashed — and it&apos;s one half of how a short,
             guessable password becomes a real cryptographic key.
           </p>
@@ -110,7 +110,7 @@ export default function SaltPage() {
         <Callout tone="trap" title="A fast hash is the wrong tool here">
           <p>
             SHA-256 is built to be <em>fast</em> — exactly what you want for
-            integrity, and exactly what you <em>don&apos;t</em> want for
+            integrity, and exactly what you <em>don&apos;t</em>{" "}want for
             passwords, where speed helps the attacker. Reaching for a plain hash
             to store passwords is the classic mistake. The fix is this page&apos;s
             slow, salted derivation — which is the foundation of{" "}

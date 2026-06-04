@@ -25,7 +25,7 @@ export default function PasswordsPage() {
           <p>
             The single rule of password storage: a server should never be able to
             tell you your own password. It keeps just enough to{" "}
-            <em>check</em> a guess — never enough to <em>recover</em> the
+            <em>check</em> a guess — never enough to <em>recover</em>{" "}the
             original. So at sign-up it doesn&apos;t store your password; it stores
             a one-way, salted, slow hash of it. At login it runs the same
             transform on what you typed and compares the results.
@@ -74,7 +74,7 @@ export default function PasswordsPage() {
 
         <Callout tone="trap" title="If a site can email you your password, run">
           <p>
-            A correctly built system <em>cannot</em> recover your password — it
+            A correctly built system <em>cannot</em>{" "}recover your password — it
             only stored a one-way hash. So &ldquo;here is your password&rdquo; in
             an email means they stored it in a form they can read, which means a
             breach hands it straight to an attacker. Real systems reset passwords
@@ -85,7 +85,7 @@ export default function PasswordsPage() {
         <Callout title="The hash isn't the last line — it's the last-but-one">
           <p>
             Salted slow hashing buys time after a breach; it doesn&apos;t make
-            weak passwords strong. A user who picks <Mono>123456</Mono> is still
+            weak passwords strong. A user who picks <Mono>123456</Mono>{" "}is still
             cracked quickly, salt or no salt. That&apos;s why the modern stack adds{" "}
             <strong>multi-factor authentication</strong> and breach monitoring on
             top — defense in depth, not a single clever hash.

@@ -80,7 +80,7 @@ export default function SignaturesPage() {
             This is why a signature is tamper-evident for free. Change a single
             byte of the message and its hash avalanches into a completely
             different digest — so the old signature, which sealed the{" "}
-            <em>old</em> digest, no longer matches. Verification fails, loudly.
+            <em>old</em>{" "}digest, no longer matches. Verification fails, loudly.
             Signatures are hashing and asymmetric keys working together; that&apos;s
             why this page is{" "}
             <Mono>built from</Mono> hashing.
@@ -103,7 +103,7 @@ export default function SignaturesPage() {
             &ldquo;it&apos;s secret.&rdquo; A signed email is still plain text
             anyone can read — the signature only proves it came from you,
             unaltered. If you also need it hidden, you encrypt{" "}
-            <em>and</em> sign. They&apos;re separate jobs that often ride
+            <em>and</em>{" "}sign. They&apos;re separate jobs that often ride
             together.
           </p>
         </Callout>
