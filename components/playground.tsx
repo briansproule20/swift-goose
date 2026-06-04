@@ -12,8 +12,8 @@ import { decryptText, encryptText, suggestPassphrase } from "@/lib/encrypt";
 import { cn } from "@/lib/utils";
 
 export function Playground() {
-  const [input, setInput] = useState("The eagle lands at midnight.");
-  const [passphrase, setPassphrase] = useState("correct horse battery");
+  const [input, setInput] = useState("We Ride for Gondor");
+  const [passphrase, setPassphrase] = useState("and war");
   const [showKey, setShowKey] = useState(false);
   const [wrongKey, setWrongKey] = useState(false);
 
