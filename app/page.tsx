@@ -16,12 +16,7 @@ export default function Home() {
         <Aurora />
         <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-20 lg:grid-cols-[1.1fr_0.9fr] lg:py-28">
           <div>
-            <span className="label-spec inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1.5 backdrop-blur">
-              <span className="size-1.5 rounded-full bg-hash" />
-              runs in the browser · web crypto
-            </span>
-
-            <h1 className="mt-6 font-display text-6xl leading-[0.95] tracking-tight sm:text-7xl">
+            <h1 className="font-display text-6xl leading-[0.95] tracking-tight sm:text-7xl">
               Encoding,
               <br />
               hashing &amp;

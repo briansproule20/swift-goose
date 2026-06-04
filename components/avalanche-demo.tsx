@@ -14,14 +14,29 @@ function flipLastChar(text: string): string {
   return text.slice(0, -1) + String.fromCharCode(last.charCodeAt(0) + 1);
 }
 
-/** A hex digest with every nibble that differs from `compareTo` tinted. */
-function HashRow({ hex, compareTo }: { hex: string; compareTo: string }) {
-  if (!hex) {
+type ViewMode = "hex" | "bits";
+
+/** A digest rendered char-by-char (hex digits or bits), diff tinted vs `compareTo`. */
+function DigestRow({
+  value,
+  compareTo,
+  mode,
+}: {
+  value: string;
+  compareTo: string;
+  mode: ViewMode;
+}) {
+  if (!value) {
     return <p className="font-data text-[13px] text-muted-foreground/50">…</p>;
   }
   return (
-    <p className="font-data text-[13px] leading-relaxed break-all">
-      {hex.split("").map((ch, i) => {
+    <p
+      className={cn(
+        "font-data leading-relaxed break-all",
+        mode === "hex" ? "text-[13px]" : "text-[11px] tracking-tight",
+      )}
+    >
+      {value.split("").map((ch, i) => {
         const changed = ch !== compareTo[i];
         return (
           <span
@@ -29,7 +44,9 @@ function HashRow({ hex, compareTo }: { hex: string; compareTo: string }) {
             className={cn(
               changed
                 ? "rounded-[2px] bg-hash-soft text-hash"
-                : "text-muted-foreground/60",
+                : mode === "bits"
+                  ? "text-muted-foreground/35"
+                  : "text-muted-foreground/60",
             )}
           >
             {ch}
@@ -44,7 +61,10 @@ function HashRow({ hex, compareTo }: { hex: string; compareTo: string }) {
 function HashCompare({ a, b }: { a: string; b: string }) {
   const [hexA, setHexA] = useState("");
   const [hexB, setHexB] = useState("");
+  const [bitA, setBitA] = useState("");
+  const [bitB, setBitB] = useState("");
   const [bitsChanged, setBitsChanged] = useState(0);
+  const [mode, setMode] = useState<ViewMode>("hex");
 
   useEffect(() => {
     let alive = true;
@@ -58,6 +78,8 @@ function HashCompare({ a, b }: { a: string; b: string }) {
       if (!alive) return;
       setHexA(hA);
       setHexB(hB);
+      setBitA(bA);
+      setBitB(bB);
       setBitsChanged(hammingDistance(bA, bB));
     })();
     return () => {
@@ -66,12 +88,35 @@ function HashCompare({ a, b }: { a: string; b: string }) {
   }, [a, b]);
 
   const pct = ((bitsChanged / 256) * 100).toFixed(1);
+  const valA = mode === "hex" ? hexA : bitA;
+  const valB = mode === "hex" ? hexB : bitB;
 
   return (
     <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <span className="label-spec">sha-256 digest</span>
+        <div className="flex rounded-md border border-border p-0.5">
+          {(["hex", "bits"] as ViewMode[]).map((m) => (
+            <button
+              key={m}
+              type="button"
+              onClick={() => setMode(m)}
+              className={cn(
+                "rounded px-2.5 py-0.5 font-data text-[11px] transition-colors",
+                mode === m
+                  ? "bg-hash-soft text-hash"
+                  : "text-muted-foreground hover:text-foreground",
+              )}
+            >
+              {m}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <div className="space-y-3">
-        <Side mark="bg-muted-foreground" text={a} hex={hexA} compareTo={hexB} />
-        <Side mark="bg-hash" text={b} hex={hexB} compareTo={hexA} />
+        <Side mark="bg-muted-foreground" text={a} value={valA} compareTo={valB} mode={mode} />
+        <Side mark="bg-hash" text={b} value={valB} compareTo={valA} mode={mode} />
       </div>
 
       <div className="rounded-lg border border-border bg-background/50 p-4">
@@ -94,6 +139,21 @@ function HashCompare({ a, b }: { a: string; b: string }) {
         </div>
         <p className="mt-2 font-data text-[11px] text-muted-foreground">
           {bitsChanged} of 256 bits flipped — about half, with no pattern.
+          {mode === "hex" && (
+            <>
+              {" "}
+              The hex view lights whole 4-bit digits, so more <em>look</em>{" "}
+              changed than bits actually flipped — switch to{" "}
+              <button
+                type="button"
+                onClick={() => setMode("bits")}
+                className="text-hash underline-offset-2 hover:underline"
+              >
+                bits
+              </button>{" "}
+              to count the real ones.
+            </>
+          )}
         </p>
       </div>
     </div>
@@ -103,13 +163,15 @@ function HashCompare({ a, b }: { a: string; b: string }) {
 function Side({
   mark,
   text,
-  hex,
+  value,
   compareTo,
+  mode,
 }: {
   mark: string;
   text: string;
-  hex: string;
+  value: string;
   compareTo: string;
+  mode: ViewMode;
 }) {
   return (
     <div>
@@ -119,7 +181,7 @@ function Side({
           “{text || "∅"}”
         </span>
       </div>
-      <HashRow hex={hex} compareTo={compareTo} />
+      <DigestRow value={value} compareTo={compareTo} mode={mode} />
     </div>
   );
 }
