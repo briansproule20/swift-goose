@@ -7,7 +7,7 @@ import { CopyButton } from "@/components/copy-button";
 import { base64Overhead, decodeBase64, encodeBase64 } from "@/lib/encode";
 
 export function EncodeDemo() {
-  const [text, setText] = useState("Hello, 世界! 🔐");
+  const [text, setText] = useState("naïve café");
   const encoded = text ? encodeBase64(text) : "";
   const roundTrip = encoded ? decodeBase64(encoded) : null;
   const overhead = base64Overhead(text);
@@ -23,7 +23,7 @@ export function EncodeDemo() {
           value={text}
           onChange={(e) => setText(e.target.value)}
           className="font-data"
-          placeholder="Type anything, including emoji…"
+          placeholder="Type anything — accents count as 2+ bytes…"
         />
       </div>
 

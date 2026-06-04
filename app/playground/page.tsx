@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Playground } from "@/components/playground";
 
 export const metadata: Metadata = {
-  title: "The Lab — Cipher Lab",
+  title: "The bench — Saltworks",
   description:
-    "Type one input and watch Base64 encoding, SHA-256 hashing, and AES-GCM encryption transform it live, side by side.",
+    "Type one input and watch Base64, SHA-256, and AES-GCM work on it live, side by side.",
 };
 
 export default function PlaygroundPage() {

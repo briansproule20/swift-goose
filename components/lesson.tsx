@@ -23,9 +23,7 @@ export function LessonHeader({
     <header className="relative border-b border-border/60">
       <div className="mx-auto max-w-3xl px-5 py-16 sm:py-20">
         <div className="flex items-center gap-3 text-sm text-muted-foreground">
-          <span className="font-data text-xs">
-            Lesson 0{index} / 03
-          </span>
+          <span className="label-spec">0{index} / 03</span>
           <span className="h-px w-8 bg-border" />
           <span
             className={cn(
@@ -143,9 +141,7 @@ export function LessonFooterNav({ conceptId }: { conceptId: ConceptId }) {
                 <span className="flex items-center gap-3">
                   <Icon className={cn("size-4", c.accent.text)} />
                   <span>
-                    <span className="block text-xs text-muted-foreground">
-                      Next concept
-                    </span>
+                    <span className="label-spec block">next</span>
                     <span className="font-display text-lg leading-tight">
                       {c.name}
                     </span>
@@ -160,7 +156,7 @@ export function LessonFooterNav({ conceptId }: { conceptId: ConceptId }) {
           href="/playground"
           className="mt-2 flex items-center justify-center gap-2 rounded-lg bg-secondary/60 p-3 text-sm transition-colors hover:bg-secondary"
         >
-          Try all three together in the Lab
+          All three on the bench
           <ArrowRight className="size-4" />
         </Link>
       </div>

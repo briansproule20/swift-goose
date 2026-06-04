@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Instrument_Serif, JetBrains_Mono } from "next/font/google";
+import { Geist, Fraunces, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
@@ -14,21 +14,22 @@ const mono = JetBrains_Mono({
   subsets: ["latin"],
 });
 
-const display = Instrument_Serif({
+const display = Fraunces({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: "400",
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
-  title: "Cipher Lab — Encoding vs. Hashing vs. Encryption",
+  title: "Saltworks — encoding, hashing, encryption",
   description:
-    "An interactive lab that demystifies the three things everyone confuses. Type once, watch encoding, hashing, and encryption transform it side by side — all in your browser via the Web Crypto API.",
+    "Three things that look alike and do completely different jobs. Type something and watch encoding, hashing, and encryption work on it, side by side, in your browser.",
   metadataBase: new URL("https://swift-goose.vercel.app"),
   openGraph: {
-    title: "Cipher Lab",
+    title: "Saltworks",
     description:
-      "Encoding vs. hashing vs. encryption — felt, not memorized.",
+      "Encoding, hashing, and encryption — what each one actually does.",
     type: "website",
   },
 };

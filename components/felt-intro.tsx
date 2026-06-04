@@ -42,9 +42,7 @@ export function FeltIntro() {
   return (
     <div className="rounded-2xl border border-border bg-card/50 p-5 backdrop-blur-sm sm:p-6">
       <div className="flex flex-col gap-2">
-        <label className="font-data text-[10px] uppercase tracking-wider text-muted-foreground">
-          type once
-        </label>
+        <label className="label-spec">type once</label>
         <Input
           value={text}
           onChange={(e) => setText(e.target.value)}
@@ -96,8 +94,7 @@ export function FeltIntro() {
       </div>
 
       <p className="mt-4 font-data text-[11px] leading-relaxed text-muted-foreground">
-        Same input, three fates: encoding bounces back instantly, hashing
-        becomes an irreversible fingerprint, encryption locks behind a key.
+        One input, three outputs. Tap any row to read more.
       </p>
     </div>
   );

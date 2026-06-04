@@ -58,16 +58,12 @@ export function Playground() {
   return (
     <div className="mx-auto max-w-6xl px-5 py-12">
       <header className="max-w-2xl">
-        <span className="font-data text-xs uppercase tracking-wider text-muted-foreground">
-          The Lab
-        </span>
+        <span className="label-spec">The bench</span>
         <h1 className="mt-3 font-display text-5xl tracking-tight sm:text-6xl">
-          One input, three fates
+          One input, three outputs
         </h1>
         <p className="mt-4 text-muted-foreground">
-          Type below. Encoding answers instantly, hashing produces an
-          irreversible fingerprint, and encryption locks everything behind your
-          key. Nothing leaves your browser.
+          Type below. Each panel updates as you go. Nothing leaves your browser.
         </p>
       </header>
 
@@ -182,8 +178,8 @@ export function Playground() {
                     ✗ {wrongKeyError ?? "Decryption failed."}
                   </p>
                 ) : (
-                  <p className="font-data text-xs text-hash">
-                    ✓ Unlocks with your key →{" "}
+                  <p className="font-data text-xs text-encode">
+                    unlocks with your key →{" "}
                     <span className="text-foreground/80">
                       “{decrypted ?? "…"}”
                     </span>
@@ -208,11 +204,14 @@ export function Playground() {
       </div>
 
       <p className="mt-8 text-center font-data text-xs text-muted-foreground">
-        New to this? Walk through the{" "}
-        <a href="/learn/encoding" className="text-foreground/80 underline-offset-4 hover:underline">
-          three lessons
-        </a>{" "}
-        first.
+        New to this? Start with{" "}
+        <a
+          href="/learn/encoding"
+          className="text-foreground/80 underline-offset-4 hover:underline"
+        >
+          encoding
+        </a>
+        .
       </p>
     </div>
   );
