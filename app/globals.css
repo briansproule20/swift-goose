@@ -23,6 +23,8 @@
   /* Verdigris (copper patina) — the protocol tier, three shades */
   --color-sign: var(--sign);
   --color-sign-soft: var(--sign-soft);
+  --color-jwt: var(--jwt);
+  --color-jwt-soft: var(--jwt-soft);
   --color-exchange: var(--exchange);
   --color-exchange-soft: var(--exchange-soft);
   --color-certificates: var(--certificates);
@@ -97,6 +99,8 @@
      primitives, so they sit one hue-step away, not in another world. */
   --sign: oklch(0.74 0.092 188);
   --sign-soft: oklch(0.74 0.092 188 / 14%);
+  --jwt: oklch(0.71 0.1 186);
+  --jwt-soft: oklch(0.71 0.1 186 / 15%);
   --exchange: oklch(0.66 0.104 192);
   --exchange-soft: oklch(0.66 0.104 192 / 16%);
   --certificates: oklch(0.62 0.1 184);
@@ -171,6 +175,9 @@
   }
   .text-glow-certificates {
     text-shadow: 0 0 22px oklch(0.62 0.1 184 / 42%);
+  }
+  .text-glow-jwt {
+    text-shadow: 0 0 22px oklch(0.71 0.1 186 / 40%);
   }
   .text-glow-salt {
     text-shadow: 0 0 22px oklch(0.79 0.097 78 / 38%);

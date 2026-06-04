@@ -190,7 +190,7 @@ export default function Home() {
             identity, agreeing on secrets, and opening a private line.
           </p>
 
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {PROTOCOLS.map((c, i) => {
               const Icon = c.icon;
               return (

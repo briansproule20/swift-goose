@@ -8,6 +8,7 @@ import {
   Handshake,
   KeyRound,
   PenLine,
+  Ticket,
   type LucideIcon,
 } from "lucide-react";
 
@@ -16,6 +17,7 @@ export type ConceptId =
   | "hash"
   | "encrypt"
   | "sign"
+  | "jwt"
   | "exchange"
   | "certificates"
   | "handshake"
@@ -138,6 +140,27 @@ export const CONCEPTS: Record<ConceptId, Concept> = {
       color: "var(--sign)",
     },
   },
+  jwt: {
+    id: "jwt",
+    tier: "protocol",
+    name: "JSON Web Tokens",
+    algorithm: "JWS · ES256",
+    oneLine: "A token anyone can read but no one can forge.",
+    reversible: "—",
+    needsKey: "Yes — to sign and to check",
+    job: "Portable, verifiable claims",
+    href: "/learn/jwt",
+    icon: Ticket,
+    builtFrom: ["encode", "sign"],
+    accent: {
+      text: "text-jwt",
+      glow: "text-glow-jwt",
+      border: "border-jwt/40",
+      bgSoft: "bg-jwt-soft",
+      ring: "ring-jwt/30",
+      color: "var(--jwt)",
+    },
+  },
   exchange: {
     id: "exchange",
     tier: "protocol",
@@ -251,6 +274,7 @@ export const CONCEPT_ORDER: ConceptId[] = ["encode", "hash", "encrypt"];
 /** The protocols — what the primitives build into. The handshake is the capstone. */
 export const PROTOCOL_ORDER: ConceptId[] = [
   "sign",
+  "jwt",
   "exchange",
   "certificates",
   "handshake",
