@@ -59,19 +59,21 @@ export function FeltIntro() {
             <Link
               key={id}
               href={c.href}
-              className="group flex items-center gap-3 rounded-lg border border-border/60 bg-background/40 px-3.5 py-3 transition-colors hover:border-border"
+              className="group flex flex-col gap-2 rounded-lg border border-border/60 bg-background/40 px-3.5 py-3 transition-colors hover:border-border sm:flex-row sm:items-center sm:gap-3"
             >
-              <span
-                className={cn(
-                  "grid size-7 shrink-0 place-items-center rounded-md border",
-                  c.accent.border,
-                  c.accent.bgSoft,
-                )}
-              >
-                <Icon className={cn("size-3.5", c.accent.text)} />
-              </span>
-              <span className="w-20 shrink-0 text-xs text-muted-foreground">
-                {c.name}
+              <span className="flex items-center gap-2.5 sm:contents">
+                <span
+                  className={cn(
+                    "grid size-7 shrink-0 place-items-center rounded-md border",
+                    c.accent.border,
+                    c.accent.bgSoft,
+                  )}
+                >
+                  <Icon className={cn("size-3.5", c.accent.text)} />
+                </span>
+                <span className="text-xs text-muted-foreground sm:w-20 sm:shrink-0">
+                  {c.name}
+                </span>
               </span>
               <AnimatePresence mode="wait">
                 <motion.code
@@ -81,7 +83,7 @@ export function FeltIntro() {
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.15 }}
                   className={cn(
-                    "flex-1 truncate font-data text-[13px]",
+                    "block w-full min-w-0 truncate font-data text-[13px] sm:flex-1",
                     c.accent.text,
                   )}
                 >
