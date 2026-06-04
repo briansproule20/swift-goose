@@ -25,8 +25,16 @@
   --color-sign-soft: var(--sign-soft);
   --color-exchange: var(--exchange);
   --color-exchange-soft: var(--exchange-soft);
+  --color-certificates: var(--certificates);
+  --color-certificates-soft: var(--certificates-soft);
   --color-handshake: var(--handshake);
   --color-handshake-soft: var(--handshake-soft);
+
+  /* Amber / ochre — the practice tier (handling passwords & secrets) */
+  --color-salt: var(--salt);
+  --color-salt-soft: var(--salt-soft);
+  --color-passwords: var(--passwords);
+  --color-passwords-soft: var(--passwords-soft);
 
   --color-ring: var(--ring);
   --color-input: var(--input);
@@ -91,8 +99,16 @@
   --sign-soft: oklch(0.74 0.092 188 / 14%);
   --exchange: oklch(0.66 0.104 192);
   --exchange-soft: oklch(0.66 0.104 192 / 16%);
+  --certificates: oklch(0.62 0.1 184);
+  --certificates-soft: oklch(0.62 0.1 184 / 16%);
   --handshake: oklch(0.58 0.094 196);
   --handshake-soft: oklch(0.58 0.094 196 / 18%);
+
+  /* amber / ochre — practice (salt, passwords). Warm, human, hands-on. */
+  --salt: oklch(0.79 0.097 78);
+  --salt-soft: oklch(0.79 0.097 78 / 14%);
+  --passwords: oklch(0.7 0.12 62);
+  --passwords-soft: oklch(0.7 0.12 62 / 16%);
 }
 
 @layer base {
@@ -152,6 +168,15 @@
   }
   .text-glow-handshake {
     text-shadow: 0 0 22px oklch(0.58 0.094 196 / 45%);
+  }
+  .text-glow-certificates {
+    text-shadow: 0 0 22px oklch(0.62 0.1 184 / 42%);
+  }
+  .text-glow-salt {
+    text-shadow: 0 0 22px oklch(0.79 0.097 78 / 38%);
+  }
+  .text-glow-passwords {
+    text-shadow: 0 0 22px oklch(0.7 0.12 62 / 42%);
   }
   /* hairline frame used on lab panels */
   .lab-frame {

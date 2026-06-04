@@ -4,7 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Menu } from "lucide-react";
+import { Menu as MenuPrimitive } from "@base-ui/react/menu";
+import { ChevronDown, Menu } from "lucide-react";
 import {
   Sheet,
   SheetClose,
@@ -13,21 +14,32 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { CONCEPTS, type ConceptId } from "@/lib/concepts";
+import {
+  CONCEPTS,
+  CONCEPT_ORDER,
+  PRACTICE_ORDER,
+  PROTOCOL_ORDER,
+  type ConceptId,
+} from "@/lib/concepts";
 import { cn } from "@/lib/utils";
 
-type NavLink = { href: string; label: string; concept?: ConceptId };
+type NavLink = { href: string; label: string; concept: ConceptId };
 
-const PRIMITIVE_LINKS: NavLink[] = [
-  { href: "/learn/encoding", label: "Encoding", concept: "encode" },
-  { href: "/learn/hashing", label: "Hashing", concept: "hash" },
-  { href: "/learn/encryption", label: "Encryption", concept: "encrypt" },
-];
+const toLinks = (order: ConceptId[]): NavLink[] =>
+  order.map((id) => ({
+    href: CONCEPTS[id].href,
+    label: CONCEPTS[id].name,
+    concept: id,
+  }));
 
-const PROTOCOL_LINKS: NavLink[] = [
-  { href: "/learn/signatures", label: "Signatures", concept: "sign" },
-  { href: "/learn/key-exchange", label: "Key Exchange", concept: "exchange" },
-  { href: "/learn/tls-handshake", label: "Handshake", concept: "handshake" },
+const PRIMITIVE_LINKS = toLinks(CONCEPT_ORDER);
+const PROTOCOL_LINKS = toLinks(PROTOCOL_ORDER);
+const PRACTICE_LINKS = toLinks(PRACTICE_ORDER);
+
+const TIERS: { label: string; links: NavLink[] }[] = [
+  { label: "Primitives", links: PRIMITIVE_LINKS },
+  { label: "Protocols", links: PROTOCOL_LINKS },
+  { label: "Practice", links: PRACTICE_LINKS },
 ];
 
 export function SiteNav() {
@@ -58,20 +70,13 @@ export function SiteNav() {
             label="Bench"
             active={pathname === "/playground"}
           />
-          <Divider />
-          {PRIMITIVE_LINKS.map((link) => (
-            <DesktopLink
-              key={link.href}
-              {...link}
-              active={pathname === link.href}
-            />
-          ))}
-          <Divider />
-          {PROTOCOL_LINKS.map((link) => (
-            <DesktopLink
-              key={link.href}
-              {...link}
-              active={pathname === link.href}
+          <span className="mx-1.5 h-4 w-px bg-border" aria-hidden />
+          {TIERS.map((t) => (
+            <NavMenu
+              key={t.label}
+              label={t.label}
+              links={t.links}
+              pathname={pathname}
             />
           ))}
         </div>
@@ -108,23 +113,18 @@ export function SiteNav() {
                 active={pathname === "/playground"}
                 onClick={() => setOpen(false)}
               />
-              <MobileGroup label="Primitives" />
-              {PRIMITIVE_LINKS.map((link) => (
-                <MobileLink
-                  key={link.href}
-                  {...link}
-                  active={pathname === link.href}
-                  onClick={() => setOpen(false)}
-                />
-              ))}
-              <MobileGroup label="Protocols" />
-              {PROTOCOL_LINKS.map((link) => (
-                <MobileLink
-                  key={link.href}
-                  {...link}
-                  active={pathname === link.href}
-                  onClick={() => setOpen(false)}
-                />
+              {TIERS.map((t) => (
+                <div key={t.label}>
+                  <MobileGroup label={t.label} />
+                  {t.links.map((link) => (
+                    <MobileLink
+                      key={link.href}
+                      {...link}
+                      active={pathname === link.href}
+                      onClick={() => setOpen(false)}
+                    />
+                  ))}
+                </div>
               ))}
             </div>
           </SheetContent>
@@ -134,17 +134,72 @@ export function SiteNav() {
   );
 }
 
-function Divider() {
-  return <span className="mx-1.5 h-4 w-px bg-border" aria-hidden />;
+function NavMenu({
+  label,
+  links,
+  pathname,
+}: {
+  label: string;
+  links: NavLink[];
+  pathname: string;
+}) {
+  const active = links.some((l) => l.href === pathname);
+  return (
+    <MenuPrimitive.Root>
+      <MenuPrimitive.Trigger
+        className={cn(
+          "inline-flex items-center gap-1 rounded-md px-2.5 py-1.5 text-sm outline-none transition-colors data-[popup-open]:text-foreground",
+          active ? "text-foreground" : "text-muted-foreground hover:text-foreground",
+        )}
+      >
+        {label}
+        <ChevronDown className="size-3.5 opacity-50 transition-transform data-[popup-open]:rotate-180" />
+      </MenuPrimitive.Trigger>
+      <MenuPrimitive.Portal>
+        <MenuPrimitive.Positioner sideOffset={10} align="start" className="z-50">
+          <MenuPrimitive.Popup className="min-w-60 origin-[var(--transform-origin)] rounded-xl border border-border bg-popover/95 p-1.5 shadow-xl shadow-black/30 backdrop-blur-xl outline-none">
+            {links.map((l) => {
+              const c = CONCEPTS[l.concept];
+              const isActive = pathname === l.href;
+              const Icon = c.icon;
+              return (
+                <MenuPrimitive.Item
+                  key={l.href}
+                  render={<Link href={l.href} />}
+                  className={cn(
+                    "flex cursor-pointer items-center gap-2.5 rounded-lg px-3 py-2 text-sm outline-none transition-colors data-[highlighted]:bg-accent data-[highlighted]:text-foreground",
+                    isActive ? "text-foreground" : "text-muted-foreground",
+                  )}
+                >
+                  <span
+                    className={cn(
+                      "grid size-6 place-items-center rounded-md border",
+                      c.accent.border,
+                      c.accent.bgSoft,
+                    )}
+                  >
+                    <Icon className={cn("size-3.5", c.accent.text)} />
+                  </span>
+                  {l.label}
+                </MenuPrimitive.Item>
+              );
+            })}
+          </MenuPrimitive.Popup>
+        </MenuPrimitive.Positioner>
+      </MenuPrimitive.Portal>
+    </MenuPrimitive.Root>
+  );
 }
 
 function DesktopLink({
   href,
   label,
-  concept,
   active,
-}: NavLink & { active: boolean }) {
-  const color = concept ? CONCEPTS[concept].accent.color : "var(--hash)";
+}: {
+  href: string;
+  label: string;
+  active: boolean;
+}) {
   return (
     <Link
       href={href}
@@ -155,21 +210,14 @@ function DesktopLink({
     >
       {label}
       {active && (
-        <span
-          className="absolute inset-x-2.5 -bottom-px h-px"
-          style={{
-            background: `linear-gradient(90deg, transparent, ${color}, transparent)`,
-          }}
-        />
+        <span className="absolute inset-x-2.5 -bottom-px h-px bg-gradient-to-r from-transparent via-hash to-transparent" />
       )}
     </Link>
   );
 }
 
 function MobileGroup({ label }: { label: string }) {
-  return (
-    <span className="label-spec mt-3 mb-1 px-3 pt-2">{label}</span>
-  );
+  return <span className="label-spec mt-3 mb-1 block px-3 pt-2">{label}</span>;
 }
 
 function MobileLink({
@@ -178,7 +226,13 @@ function MobileLink({
   concept,
   active,
   onClick,
-}: NavLink & { active: boolean; onClick: () => void }) {
+}: {
+  href: string;
+  label: string;
+  concept?: ConceptId;
+  active: boolean;
+  onClick: () => void;
+}) {
   const accent = concept ? CONCEPTS[concept].accent : null;
   return (
     <SheetClose render={<Link href={href} onClick={onClick} />}>

@@ -4,11 +4,17 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Aurora } from "@/components/aurora";
 import { FeltIntro } from "@/components/felt-intro";
 import { Button } from "@/components/ui/button";
-import { CONCEPT_ORDER, CONCEPTS, PROTOCOL_ORDER } from "@/lib/concepts";
+import {
+  CONCEPT_ORDER,
+  CONCEPTS,
+  PRACTICE_ORDER,
+  PROTOCOL_ORDER,
+} from "@/lib/concepts";
 import { cn } from "@/lib/utils";
 
 const ROWS = CONCEPT_ORDER.map((id) => CONCEPTS[id]);
 const PROTOCOLS = PROTOCOL_ORDER.map((id) => CONCEPTS[id]);
+const PRACTICE = PRACTICE_ORDER.map((id) => CONCEPTS[id]);
 
 export default function Home() {
   return (
@@ -184,7 +190,7 @@ export default function Home() {
             identity, agreeing on secrets, and opening a private line.
           </p>
 
-          <div className="mt-10 grid gap-4 md:grid-cols-3">
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {PROTOCOLS.map((c, i) => {
               const Icon = c.icon;
               return (
@@ -211,6 +217,83 @@ export default function Home() {
                     </span>
                     <span className="label-spec">
                       {c.id === "handshake" ? "capstone" : `0${i + 1}`}
+                    </span>
+                  </div>
+                  <h3 className="mt-5 font-display text-2xl">{c.name}</h3>
+                  <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
+                    {c.oneLine}
+                  </p>
+                  {c.builtFrom && (
+                    <div className="mt-4 flex flex-wrap gap-1.5">
+                      {c.builtFrom.map((id) => {
+                        const b = CONCEPTS[id];
+                        return (
+                          <span
+                            key={id}
+                            className={cn(
+                              "rounded-full border px-2 py-0.5 font-data text-[10px]",
+                              b.accent.border,
+                              b.accent.bgSoft,
+                              b.accent.text,
+                            )}
+                          >
+                            {b.name}
+                          </span>
+                        );
+                      })}
+                    </div>
+                  )}
+                  <span className="mt-5 inline-flex items-center gap-1.5 text-sm text-foreground/80 transition-colors group-hover:text-foreground">
+                    Open
+                    <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Practice (the third tier) ── */}
+      <section id="practice" className="scroll-mt-20">
+        <div className="mx-auto max-w-6xl px-5 py-20">
+          <span className="label-spec">tier 03</span>
+          <h2 className="mt-3 font-display text-4xl tracking-tight">
+            And then humans show up.
+          </h2>
+          <p className="mt-3 max-w-xl text-muted-foreground">
+            The math is the easy part. The hard part is using it safely once real
+            people pick weak passwords and databases get leaked. This is the
+            craft of handling secrets without getting burned.
+          </p>
+
+          <div className="mt-10 grid gap-4 md:grid-cols-2">
+            {PRACTICE.map((c) => {
+              const Icon = c.icon;
+              return (
+                <Link
+                  key={c.id}
+                  href={c.href}
+                  className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card/40 p-6 transition-transform hover:-translate-y-1"
+                >
+                  <span
+                    className="absolute inset-x-0 top-0 h-px"
+                    style={{
+                      background: `linear-gradient(90deg, transparent, ${c.accent.color}, transparent)`,
+                    }}
+                  />
+                  <div className="flex items-center justify-between">
+                    <span
+                      className={cn(
+                        "grid size-11 place-items-center rounded-lg border",
+                        c.accent.border,
+                        c.accent.bgSoft,
+                      )}
+                    >
+                      <Icon className={cn("size-5", c.accent.text)} />
+                    </span>
+                    <span className={cn("font-data text-xs", c.accent.text)}>
+                      {c.algorithm}
                     </span>
                   </div>
                   <h3 className="mt-5 font-display text-2xl">{c.name}</h3>

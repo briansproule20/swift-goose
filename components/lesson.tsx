@@ -156,10 +156,31 @@ export function Mono({ children }: { children: ReactNode }) {
   );
 }
 
+const TIER_LINK: Record<
+  "primitive" | "protocol" | "practice",
+  { href: string; label: string; sibling: string }
+> = {
+  primitive: {
+    href: "/playground",
+    label: "All three on the bench",
+    sibling: "next",
+  },
+  protocol: {
+    href: "/#protocols",
+    label: "All the protocols",
+    sibling: "protocol",
+  },
+  practice: {
+    href: "/#practice",
+    label: "Back to practice",
+    sibling: "practice",
+  },
+};
+
 export function LessonFooterNav({ conceptId }: { conceptId: ConceptId }) {
   const c = CONCEPTS[conceptId];
   const others = tierOrder(c.tier).filter((id) => id !== conceptId);
-  const isProtocol = c.tier === "protocol";
+  const tierLink = TIER_LINK[c.tier];
 
   return (
     <nav className="mx-auto max-w-3xl px-5 pb-20">
@@ -178,7 +199,7 @@ export function LessonFooterNav({ conceptId }: { conceptId: ConceptId }) {
                   <Icon className={cn("size-4", o.accent.text)} />
                   <span>
                     <span className="label-spec block">
-                      {isProtocol ? "protocol" : "next"}
+                      {tierLink.sibling}
                     </span>
                     <span className="font-display text-lg leading-tight">
                       {o.name}
@@ -191,10 +212,10 @@ export function LessonFooterNav({ conceptId }: { conceptId: ConceptId }) {
           })}
         </div>
         <Link
-          href={isProtocol ? "/#protocols" : "/playground"}
+          href={tierLink.href}
           className="mt-2 flex items-center justify-center gap-2 rounded-lg bg-secondary/60 p-3 text-sm transition-colors hover:bg-secondary"
         >
-          {isProtocol ? "All the protocols" : "All three on the bench"}
+          {tierLink.label}
           <ArrowRight className="size-4" />
         </Link>
       </div>

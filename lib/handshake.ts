@@ -27,7 +27,13 @@ import {
 import { generateSigningKeyPair, publicKeyFingerprint, signText, verifyText } from "./sign";
 
 export type StepSide = "client" | "server" | "wire" | "both";
-export type StepPrimitive = "hash" | "sign" | "exchange" | "encrypt" | null;
+export type StepPrimitive =
+  | "hash"
+  | "sign"
+  | "exchange"
+  | "encrypt"
+  | "certificates"
+  | null;
 
 export interface HandshakeStep {
   id: string;
@@ -127,9 +133,9 @@ export async function runHandshake(
     record: "Certificate",
     title: "Server presents its certificate",
     side: "server",
-    primitive: "sign",
+    primitive: "certificates",
     detail:
-      "The certificate is the server's long-term public key, vouched for by a certificate authority. Its fingerprint is a stable handle for 'this exact server'.",
+      "The certificate is the server's long-term public key, vouched for by a chain of certificate authorities up to a root your browser trusts. Its fingerprint is a stable handle for 'this exact server'.",
     value: serverIdentityFingerprint,
   });
 

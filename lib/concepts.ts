@@ -1,7 +1,10 @@
 import {
   ArrowLeftRight,
+  Asterisk,
+  BadgeCheck,
   Binary,
   Fingerprint,
+  Grid2x2,
   Handshake,
   KeyRound,
   PenLine,
@@ -14,15 +17,19 @@ export type ConceptId =
   | "encrypt"
   | "sign"
   | "exchange"
-  | "handshake";
+  | "certificates"
+  | "handshake"
+  | "salt"
+  | "passwords";
 
 /**
- * Two tiers. The *primitives* are the indivisible building blocks — what each
- * one does on its own. The *protocols* are what you get when you compose those
- * blocks into something that solves a real-world problem (proving identity,
- * agreeing on a secret, opening a secure channel).
+ * Three tiers. The *primitives* are the indivisible building blocks — what each
+ * one does on its own. The *protocols* compose those blocks into something that
+ * solves a systems problem (proving identity, agreeing on a secret, opening a
+ * channel). And *practice* is how the blocks get used safely in the messy real
+ * world — handling passwords and secrets without shooting yourself in the foot.
  */
-export type Tier = "primitive" | "protocol";
+export type Tier = "primitive" | "protocol" | "practice";
 
 export interface Concept {
   id: ConceptId;
@@ -152,6 +159,27 @@ export const CONCEPTS: Record<ConceptId, Concept> = {
       color: "var(--exchange)",
     },
   },
+  certificates: {
+    id: "certificates",
+    tier: "protocol",
+    name: "Certificates",
+    algorithm: "X.509 / PKI",
+    oneLine: "Trust that scales — a signature vouching for a signature.",
+    reversible: "—",
+    needsKey: "Yes — a chain of pairs",
+    job: "Binding a key to an identity",
+    href: "/learn/certificates",
+    icon: BadgeCheck,
+    builtFrom: ["sign", "hash"],
+    accent: {
+      text: "text-certificates",
+      glow: "text-glow-certificates",
+      border: "border-certificates/40",
+      bgSoft: "bg-certificates-soft",
+      ring: "ring-certificates/30",
+      color: "var(--certificates)",
+    },
+  },
   handshake: {
     id: "handshake",
     tier: "protocol",
@@ -163,7 +191,7 @@ export const CONCEPTS: Record<ConceptId, Concept> = {
     job: "Bootstrapping a private channel",
     href: "/learn/tls-handshake",
     icon: Handshake,
-    builtFrom: ["sign", "exchange", "encrypt"],
+    builtFrom: ["exchange", "certificates", "encrypt"],
     accent: {
       text: "text-handshake",
       glow: "text-glow-handshake",
@@ -173,15 +201,67 @@ export const CONCEPTS: Record<ConceptId, Concept> = {
       color: "var(--handshake)",
     },
   },
+  salt: {
+    id: "salt",
+    tier: "practice",
+    name: "Salt & Key Derivation",
+    algorithm: "PBKDF2 / Argon2",
+    oneLine: "Turn a human password into a real key — and never twice the same.",
+    reversible: "No — one-way, on purpose slow",
+    needsKey: "No — it makes one",
+    job: "Stretching weak secrets into strong keys",
+    href: "/learn/salt",
+    icon: Grid2x2,
+    builtFrom: ["hash"],
+    accent: {
+      text: "text-salt",
+      glow: "text-glow-salt",
+      border: "border-salt/40",
+      bgSoft: "bg-salt-soft",
+      ring: "ring-salt/30",
+      color: "var(--salt)",
+    },
+  },
+  passwords: {
+    id: "passwords",
+    tier: "practice",
+    name: "Password Storage",
+    algorithm: "salt + slow hash",
+    oneLine: "Why a leaked database still shouldn't give up your password.",
+    reversible: "No — store the proof, not the secret",
+    needsKey: "No",
+    job: "Verifying without keeping the secret",
+    href: "/learn/passwords",
+    icon: Asterisk,
+    builtFrom: ["hash", "salt"],
+    accent: {
+      text: "text-passwords",
+      glow: "text-glow-passwords",
+      border: "border-passwords/40",
+      bgSoft: "bg-passwords-soft",
+      ring: "ring-passwords/30",
+      color: "var(--passwords)",
+    },
+  },
 };
 
 /** The primitives — the original three, used by the hero + comparison table. */
 export const CONCEPT_ORDER: ConceptId[] = ["encode", "hash", "encrypt"];
 
 /** The protocols — what the primitives build into. The handshake is the capstone. */
-export const PROTOCOL_ORDER: ConceptId[] = ["sign", "exchange", "handshake"];
+export const PROTOCOL_ORDER: ConceptId[] = [
+  "sign",
+  "exchange",
+  "certificates",
+  "handshake",
+];
+
+/** Practice — how the blocks get used safely when humans and passwords show up. */
+export const PRACTICE_ORDER: ConceptId[] = ["salt", "passwords"];
 
 /** The order a learner should move through within a single tier. */
 export function tierOrder(tier: Tier): ConceptId[] {
-  return tier === "primitive" ? CONCEPT_ORDER : PROTOCOL_ORDER;
+  if (tier === "primitive") return CONCEPT_ORDER;
+  if (tier === "protocol") return PROTOCOL_ORDER;
+  return PRACTICE_ORDER;
 }
