@@ -55,16 +55,18 @@ export function XorMath() {
         </div>
       </div>
 
-      <div className="mt-6 space-y-1.5">
-        <BitLine label="plaintext" hint={`${printable(p)} · ${p}`} bits={bits(p)} />
-        <BitLine label="key" hint={`${k}`} bits={bits(k)} op="⊕" muted />
-        <div className="h-px bg-border" />
-        <BitLine
-          label="ciphertext"
-          hint={`${printable(c)} · ${c}`}
-          bits={bits(c)}
-          accent
-        />
+      <div className="mt-6 overflow-x-auto pb-1">
+        <div className="min-w-fit space-y-1.5">
+          <BitLine label="plaintext" hint={`${printable(p)} · ${p}`} bits={bits(p)} />
+          <BitLine label="key" hint={`${k}`} bits={bits(k)} op="⊕" muted />
+          <div className="h-px bg-border" />
+          <BitLine
+            label="ciphertext"
+            hint={`${printable(c)} · ${c}`}
+            bits={bits(c)}
+            accent
+          />
+        </div>
       </div>
 
       <p className="label-spec mt-6">apply the key again</p>

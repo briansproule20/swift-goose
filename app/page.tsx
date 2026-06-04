@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Aurora } from "@/components/aurora";
@@ -16,20 +17,19 @@ export default function Home() {
         <Aurora />
         <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-20 lg:grid-cols-[1.1fr_0.9fr] lg:py-28">
           <div>
-            <h1 className="font-display text-6xl leading-[0.95] tracking-tight sm:text-7xl">
-              Encoding,
-              <br />
-              hashing &amp;
-              <br />
-              <span className="italic text-hash text-glow-hash">
-                encryption
-              </span>
+            <h1 className="grid w-fit grid-cols-[auto_auto] items-baseline gap-x-3 gap-y-1 font-display text-5xl leading-[1.04] tracking-tight sm:gap-x-5 sm:text-6xl lg:text-7xl">
+              {ROWS.map((c) => (
+                <Fragment key={c.id}>
+                  <span>{c.name}</span>
+                  <span className="self-baseline font-data text-[10px] uppercase tracking-[0.18em] text-muted-foreground sm:text-xs">
+                    {c.algorithm}
+                  </span>
+                </Fragment>
+              ))}
             </h1>
 
             <p className="mt-6 max-w-md text-lg leading-relaxed text-muted-foreground">
-              Three things that look the same and aren&apos;t. One scrambles for
-              transport, one makes a fingerprint, one keeps a secret. Type
-              something and watch each one work on it.
+              Three different things that look the same in a text box.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-3">

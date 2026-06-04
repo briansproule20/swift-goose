@@ -32,6 +32,16 @@ export const metadata: Metadata = {
       "Encoding, hashing, and encryption — what each one actually does.",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Saltworks",
+    description:
+      "Encoding, hashing, and encryption — what each one actually does.",
+  },
+  icons: {
+    icon: "/icon.png",
+    apple: "/apple-icon.png",
+  },
 };
 
 export default function RootLayout({

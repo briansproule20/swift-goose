@@ -9,6 +9,7 @@ import {
 } from "@/components/lesson";
 import { EncodeDemo } from "@/components/encode-demo";
 import { Base64Math } from "@/components/base64-math";
+import { Base64Decoder } from "@/components/base64-decoder";
 
 export const metadata: Metadata = {
   title: "Encoding · Base64 — Saltworks",
@@ -81,6 +82,14 @@ export default function EncodingPage() {
             .
           </p>
         </Callout>
+
+        <Section title="Decode anything">
+          <p>
+            Paste any Base64 string and read it back. No key required — proof of
+            the point above.
+          </p>
+          <Base64Decoder />
+        </Section>
       </LessonBody>
 
       <LessonFooterNav conceptId="encode" />

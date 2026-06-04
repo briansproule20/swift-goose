@@ -42,7 +42,7 @@ export function ModHashMath() {
 
       {/* the 12 output slots */}
       <p className="label-spec mt-6">12 possible outputs</p>
-      <div className="mt-3 grid grid-cols-12 gap-1.5">
+      <div className="mt-3 grid grid-cols-6 gap-1.5 sm:grid-cols-12">
         {Array.from({ length: MOD }).map((_, i) => (
           <div
             key={i}
